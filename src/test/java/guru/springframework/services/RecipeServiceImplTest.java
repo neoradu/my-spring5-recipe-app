@@ -33,7 +33,7 @@ public class RecipeServiceImplTest {
 		Set<Recipe> expectedRecipes = new HashSet<>();
 		expectedRecipes.add(new Recipe());
 		
-		when(recipeService.getRecipes()).thenReturn(expectedRecipes) ;
+		when(recipeRepository.findAll()).thenReturn(expectedRecipes) ;
 		
 		
 		Set<Recipe> recipes = recipeService.getRecipes();

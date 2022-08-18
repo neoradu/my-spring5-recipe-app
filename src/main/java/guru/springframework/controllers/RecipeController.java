@@ -38,6 +38,14 @@ public class RecipeController {
 		return "recipe/recipeform";
 	}
 	
+	@RequestMapping("/recipe/{id}/update")
+	public String updateRecipe(@PathVariable String id, Model model) {
+		Long lId = Long.valueOf(id);
+		model.addAttribute("recipe", recipeService.findRecipeCommandById(lId));
+		
+		return "recipe/recipeform";
+	}
+	
 	//@ModelAttribute this will tell spring to bind the form POST attributes to the RecipeCommand
 	@PostMapping
 	@RequestMapping("/recipe")
@@ -46,6 +54,6 @@ public class RecipeController {
 		RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
 		
 		//This will tell Spring to redirect a new url
-		return "redirect:/recipe/show/" + savedCommand.getId();
+		return String.format("redirect:/recipe/%d/show", savedCommand.getId());
 	}
 }

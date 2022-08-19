@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
+import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
 
 
@@ -18,11 +18,13 @@ import guru.springframework.services.RecipeService;
 public class IngredientController {
 
 	final private RecipeService recipeService;
+	final private IngredientService ingredientService;
 	
 	@Autowired
-	public IngredientController(RecipeService recipeService) {
+	public IngredientController(RecipeService recipeService, IngredientService ingredientService) {
 		super();
 		this.recipeService = recipeService;
+		this.ingredientService = ingredientService;
 	}
 	
 	@GetMapping
@@ -33,5 +35,16 @@ public class IngredientController {
 		model.addAttribute("recipe", recipe);
 		
 		return String.format("/recipe/ingredients/list", idL);
+	}
+	@GetMapping
+	@RequestMapping("/recipe/{recipeId}/ingredients/{ingredientId}/show")
+	public String showIngredient(@PathVariable String recipeId,
+			                     @PathVariable String ingredientId,  Model model) {
+		Long recipeIdL = Long.valueOf(recipeId);
+		Long ingredientIdL = Long.valueOf(ingredientId);
+		model.addAttribute("ingredientCmd", 
+				           ingredientService.getByRecipeIdAndIngredientId(recipeIdL, ingredientIdL));
+		
+		return "/recipe/ingredients/show";
 	}
 }

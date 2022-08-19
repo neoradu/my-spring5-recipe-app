@@ -1,5 +1,6 @@
 package guru.springframework.services;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,5 +95,37 @@ public class IngredientServiceImpl implements IngredientService {
         }
 
     }
+	@Transactional
+	@Override
+	public void deleteByRecipeIdAndIngredientId(Long recipeId, Long ingredientId) {
+		Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+        if(!recipeOptional.isPresent()){
+
+            //todo toss error if not found!
+            log.error("Recipe not found for id: " + recipeId);
+        } else {
+            Recipe recipe = recipeOptional.get();
+            Optional<Ingredient> ingredientOptional = recipe
+                    .getIngredients()
+                    .stream()
+                    .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                    .findFirst();
+            if(ingredientOptional.isPresent()) {
+            	//!!!! Remove the inverse relationship. This will tell hibernate to remove it from the database
+            	ingredientOptional.get().setRecipe(null);
+            	recipe.getIngredients().remove(ingredientOptional.get());
+            	//recipe.setIngredients(new HashSet<>());
+            	Recipe savedRecipe = recipeRepository.save(recipe);
+
+            	/*System.out.println(String.format("Ingredient %d  from recipe %d deleted ingredients emty:%b",
+		                 ingredientOptional.get().getId(), savedRecipe.getId(),savedRecipe.getIngredients().isEmpty()));
+		                 */
+            } else {
+                //todo toss error if not found!
+                log.error(String .format("Ingredient id:%d not found in Recipe id:%d",ingredientId, recipeId));
+            } 
+            
+        }
+	}
 
 }

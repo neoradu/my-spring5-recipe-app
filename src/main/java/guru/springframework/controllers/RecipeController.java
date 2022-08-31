@@ -66,7 +66,7 @@ public class RecipeController {
     }
     
     //@ResponseStatus(HttpStatus.NOT_FOUND)//this is put here because @ExceptionHandler 200 is taking a higher  presidency  
-    @ExceptionHandler(value = NotFoundException.class)
+/*    @ExceptionHandler(value = NotFoundException.class)
     public ModelAndView handle404(Exception ex) {
     	log.error("Handling 404 error!");
     	log.error("Exception received:" + ex.toString());
@@ -77,18 +77,5 @@ public class RecipeController {
 
     	
     	return mav;
-    }
-    
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = NumberFormatException.class)
-    public ModelAndView handle400BadRequest(Exception ex) {
-    	log.error("Handling 400 bad request error!");
-
-    	ModelAndView mav = new ModelAndView();
-
-    	mav.addObject("exception", ex);
-		mav.setViewName("400error");
-
-    	return mav;
-    }
+    }*/
 }

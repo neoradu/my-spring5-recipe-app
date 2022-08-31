@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>404 Not Found</title>
+    <title>400 Bad Request</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -17,7 +17,7 @@
             crossorigin="anonymous" th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-	<h1>404 NOT FOUND!</h1>
+	<h1>400 Bad request</h1>
 	<h2 th:text = "${exception.getMessage()}"></h2>
 </body>
 </html>
